@@ -1,34 +1,27 @@
-<%@page import="board.model.BoardDto"%>
-<%@page import="board.model.BoardDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	<%
-	Long no = Long.parseLong(request.getParameter("no"));
-	BoardDAO boardDAO = BoardDAO.getInstance();
-	BoardDto boardDto = boardDAO.getBoardView(no);
-	%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="../css/board.css" type="text/css" />
+<link rel="stylesheet" href="css/board.css" type="text/css" />
 </head>
 <body>
-	<form action="update_action.jsp" method="post">
+	<form action="BoardUpdateAction.do" method="post">
 		<table>
 			<caption>글 수정</caption>
 			<tr>
 			<th>글번호</th>
-			<td><%=boardDto.getNo() %><input type="hidden" name="no" value="<%=boardDto.getNo()%>" readonly="readonly"/></td>
+			<td>${boardDto.no }<input type="hidden" name="no" value="${boardDto.no }" readonly="readonly"/></td>
 			</tr>
 			<tr>
 			<th>제목</th>
-			<td><input type="text" name="title" autofocus="autofocus" required="required" value="<%=boardDto.getTitle()%>"/></td>
+			<td><input type="text" name="title" autofocus="autofocus" required="required" value="${boardDto.title }"/></td>
 			</tr>
 			<tr>
 			<th>이름</th>
-			<td><input type="text" name="name" required="required" value="<%=boardDto.getName()%>"/></td>
+			<td><input type="text" name="name" required="required" value="${boardDto.name }"/></td>
 			</tr>
 			<tr>
 			<th>비밀번호</th>
@@ -39,7 +32,7 @@
 			</tr>
 			<tr>
 			<th>내용</th>
-			<td><textarea rows="5" cols="50" name="content" required="required" ><%=boardDto.getContent()%></textarea></td>
+			<td><textarea rows="5" cols="50" name="content" required="required" >${boardDto.content }</textarea></td>
 			</tr>
 			<tr>
 			<td colspan="2" align="center"><input type="submit" name="완료" /></td>

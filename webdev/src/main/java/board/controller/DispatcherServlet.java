@@ -1,7 +1,10 @@
 package board.controller;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,10 +14,37 @@ import javax.servlet.http.HttpServletResponse;
 
 public class DispatcherServlet extends HttpServlet {
 	
+	private Map<String, AbstractController> actionMap = new HashMap<String, AbstractController>();
+	
+	
 	//서비스 메소드 부르기 전에 init메소드 부터 불러야함
 	@Override
 	public void init() throws ServletException {
+		String props = this.getClass().getResource("dispatcher.properties").getPath();
+		Properties pr = new Properties();
+		FileInputStream f = null;
 		
+		try {
+			f = new FileInputStream(props);
+			pr.load(f);
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			if(f!=null) try {f.close();} catch(Exception e) {}
+		}
+		
+		for(Object obj : pr.keySet()) {
+			String key = ((String) obj).trim();					// 예)/BoardInsert.do
+			String className = pr.getProperty(key).trim();		// board.controller.BoardInsert
+			
+			try {
+				Class actionClass = Class.forName(className);
+				AbstractController controller =  (AbstractController) actionClass.getConstructor().newInstance();
+				actionMap.put(key, controller);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	@Override
@@ -26,16 +56,9 @@ public class DispatcherServlet extends HttpServlet {
 		AbstractController controller = null;
 		ModelAndView mav = null;	//ModelAndView에는 다음 이동할 이름과 그 view에 뿌려줄 데이터를 포함
 		
-		if(action.equals("/BoardInsert.do")) {
-			controller = new BoardInsert();
-			mav = controller.handleRequestInternal(request, response);
-		}else if(action.equals("/BoardInsertAction.do")) {
-			controller = new BoardInsertAction();
-			mav = controller.handleRequestInternal(request, response);
-		}else if(action.equals("/BoardList.do")) {
-			controller = new BoardList();
-			mav = controller.handleRequestInternal(request, response);
-		}
+		controller = actionMap.get(action);
+		mav = controller.handleRequestInternal(request, response);
+		
 		
 		if(mav!=null) {
 			String viewName = mav.getViewName();

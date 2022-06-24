@@ -14,4 +14,4 @@ create sequence m1board_seq nocache;
 
 select * from m1board;
 
-delete from m1board where no = 4;
+delete from m1board where no = 6;

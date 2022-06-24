@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+var createXMLHttpRequest = function() {
+	var xhr = new XMLHttpRequest();
+	//alert('XMLHttpRequest 객체 생성');
+	
+	return xhr;
+}
+
+function load(url) {
+	var xhr = createXMLHttpRequest();
+	//console.log('xhr.readyState : ' + xhr.readyState);
+	
+	xhr.open('GET', url, true);	//true : 비동기적 방식
+	//console.log('xhr.readyState : ' + xhr.readyState);
+	
+	xhr.onreadystatechange = function() {	//콜백 함수 : 특정한 상황에 알아서 동작하는 함수
+		//console.log('xhr.readyState : ' + xhr.readyState);
+		if(xhr.readyState == 4) {
+			if(xhr.status == 200) {
+				console.log('ok~!');
+				process(xhr);
+			} else {
+				console.log('에러 : ' + xhr.status);	//404, 500 에러
+			}
+		}
+	}
+	xhr.send(null);
+}
+var process = function(xhr) {
+	document.getElementById('rcvData').innerHTML = xhr.responseText;
+}
+</script>
+</head>
+<body>
+<input type="button" value="테스트1" onclick="load('msg.txt');">
+<input type="button" value="테스트2" onclick="load('msg.jsp');">
+<div id="rcvData"></div>
+</body>
+</html>

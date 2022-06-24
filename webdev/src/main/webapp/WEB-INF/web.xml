@@ -45,4 +45,13 @@
 		<servlet-name>dispatcher</servlet-name>
 		<url-pattern>*.do</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>youare</servlet-name>
+		<servlet-class>servlet.Youare</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>youare</servlet-name>
+		<url-pattern>/Youare</url-pattern>
+	</servlet-mapping>
 </web-app>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+var createXMLHttpRequest = function() {
+	var xhr = new XMLHttpRequest();
+	
+	return xhr;
+}
+
+function load(url) {
+	var xhr = createXMLHttpRequest();
+	var name = document.getElementById('name').value;
+	var age = document.getElementById('age').value;
+	xhr.open('GET', url + '?name=' + name + '&age=' + age, true);	//true : 비동기적 방식
+	
+	xhr.onreadystatechange = function() {	//콜백 함수 : 특정한 상황에 알아서 동작하는 함수
+		if(xhr.readyState == 4) {
+			if(xhr.status == 200) {
+				console.log('ok~!');
+				process(xhr);
+			} else {
+				console.log('에러 : ' + xhr.status);	//404, 500 에러
+			}
+		}
+	}
+	xhr.send(null);
+}
+var process = function(xhr) {
+	document.getElementById('rcvData').innerHTML = '<h1>' + xhr.responseText + '<h1/>';
+}
+</script>
+</head>
+<body>
+name : <input type="text" id="name">
+age : <input type="text" id="age">
+<input type="button" value="버튼" onclick="load('../Youare');">
+<hr>
+<div id="rcvData"></div>
+<hr>
+</body>
+</html>
