@@ -113,4 +113,35 @@ public class MemberDAO { // DAO(Data Access Object)
 		}
 		return result;
 	}
+
+	public MemberDTO getUser(MemberDTO memberDto) {
+		Connection cn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		MemberDTO userInfo = null;
+		
+		String sql = "select id, name from tbl_member where id=? and password=?";
+		
+		try {
+			cn = getConnection();
+			ps = cn.prepareStatement(sql);
+			ps.setString(1, memberDto.getId());
+			ps.setString(2, memberDto.getPassword());
+			rs = ps.executeQuery();
+			
+			if(rs.next()) {
+				userInfo = new MemberDTO();
+				userInfo.setId(rs.getString("id"));
+				userInfo.setName(rs.getString("name"));
+			}
+		
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			dbClose(cn, ps, rs);
+		}
+		
+		return userInfo;
+	}
 }

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="jquery-3.6.0.js">
+</script>
+<script type="text/javascript">
+$(document).ready(function() {		//$(document).ready(function() ==>$();
+	$('#btn1').click(function() {
+		//alert("버튼1 클릭");
+		$.ajax({
+			url : 'msg.txt',
+			success : function(result) {
+				$('#rcvData').html(result);	//id에 접근할 때 #을 이용
+			}
+		});
+	});
+	
+	$('#btn2').click(function() {
+		$.ajax({
+			url : 'msg.jsp',
+			success : function(result) {
+				$('#rcvData').html(result);
+			}
+		});
+	});
+});
+</script>
+</head>
+<body>
+<input type="button" value="테스트1" id="btn1">
+<input type="button" value="테스트2" id="btn2">
+<div id="rcvData"></div>
+</body>
+</html>

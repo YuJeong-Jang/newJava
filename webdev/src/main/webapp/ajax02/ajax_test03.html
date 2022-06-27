@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="jquery-3.6.0.js">
+</script>
+<script type="text/javascript">
+$(document).ready(function() {
+	$('#btn').click(function(){
+		var name = $('#name').val();
+		var age = $('#age').val();
+		$.ajax({
+			type : 'POST',
+			data : {'name' : name,
+					'age' : age},	
+			url : '../Youare',
+			success : function(data) {
+				$('#rcvData').html('<h1>' + data + '</h1>');
+			}
+		});
+	});
+});
+</script>
+</head>
+<body>
+name : <input type="text" id="name">
+age : <input type="text" id="age">
+<input type="button" value="버튼" id="btn">
+<hr>
+<div id="rcvData"></div>
+<hr>
+</body>
+</html>

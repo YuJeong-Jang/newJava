@@ -8,10 +8,12 @@ import java.util.Properties;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+@WebServlet("*.do")
 public class DispatcherServlet extends HttpServlet {
 	
 	private Map<String, AbstractController> actionMap = new HashMap<String, AbstractController>();
